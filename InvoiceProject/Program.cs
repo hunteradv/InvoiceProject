@@ -11,19 +11,47 @@ namespace InvoiceProject
         {
             try
             {
-                var invoice = Invoice.CreateInvoice(1, new Client { Name = "Gustavo", LastName = "Henrique" }, 10, 100, new List<Payment> { new Payment { PaymentValue = 100 } }, new List<Item> { new Item { IdItem = 1 }, new Item { IdItem = 2 } });
+                var invoice = Invoice.CreateInvoice(1,
+                    new Client { Id = 1, Name = "Gustavo", LastName = "Henrique", Gender = "Male" },
+                    1,
+                    1,
+                    15,
+                    new List<Payment> { new Payment { PaymentValue = 100 } },
+                    new List<Item> { Item.CreateItem(1, 1, "Agua", 3, 5, 15) }
+                    );
+
                 Console.WriteLine($"Id da nota: {invoice.Id} ");
                 Console.WriteLine($"Nome do destinatário: {invoice.Destinatary.Name} {invoice.Destinatary.LastName} ");
+                Console.WriteLine($"Gender: {invoice.Destinatary.Gender}");
+                Console.WriteLine($"Number: {invoice.Number}");
                 Console.WriteLine($"Número de série: {invoice.SerialNumber}");
-                Console.WriteLine($"Valor: {invoice.Amount}");
+                Console.WriteLine($"Amount: {invoice.Amount}");
                 Console.WriteLine($"Valor pagamentos: {invoice.Payments.FirstOrDefault().PaymentValue}");
-                foreach (var item in invoice.Items)
+                foreach (var items in invoice.Items)
                 {
-                    Console.WriteLine($"Id dos itens: {item.IdItem}");
+                    Console.WriteLine($"Id dos itens: {items.IdItem}");
                 }
 
-                var invoice2 = Invoice.CreateInvoice(-1, new Client { Name = "Gustavo", LastName = "Henrique" }, 10, 100, new List<Payment> { new Payment { PaymentValue = 100 } }, new List<Item> { new Item { IdItem = 1 }, new Item { IdItem = 2 } });
-              
+                var item = Item.CreateItem(3, 2, "Água com gás", 5, 2, 10);
+
+                Console.WriteLine($"Id do item: {item.IdItem}");
+                Console.WriteLine($"Id do produto: {item.ProductId}");
+                Console.WriteLine($"Descrição: {item.DescriptionProduct}");
+                Console.WriteLine($"Valor unitário: {item.UnitValue}");
+                Console.WriteLine($"Quantidade: {item.Quantity}");
+                Console.WriteLine($"Valor total: {item.TotalProduct}");
+
+                Console.WriteLine();
+
+                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 100000});
+                Console.WriteLine($"Alterando Amount para 100000: {invoice.Amount}");
+
+                invoice = Invoice.AlterStatusInvoice(invoice);
+                Console.WriteLine($"Status invoice alterado: {invoice.Status}");
+
+                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 10 });
+                Console.WriteLine($"Tentando alterando Amount para 10: {invoice.Amount}");
+
             }
             catch (ArgumentException ex)
             {
@@ -33,6 +61,7 @@ namespace InvoiceProject
             {
                 Console.WriteLine($"Aconteceu um erro inesperado: {ex.Message}");
             }
+
         }
     }
 }

@@ -18,7 +18,7 @@ namespace InvoiceProject.Class
         public List<Payment> Payments { get; protected set; }
         public List<Item> Items { get; protected set; }
 
-        private Invoice(int _id, Client _destinatary, int _serialNumber, decimal _amount, List<Payment> _payments, List<Item> _items)
+        private Invoice(int _id, Client _destinatary, int _number, int _serialNumber, decimal _amount, List<Payment> _payments, List<Item> _items)
         {
             if (_id <= 0)
             {
@@ -26,7 +26,11 @@ namespace InvoiceProject.Class
             }
             if (_destinatary == null)
             {
-                throw new ArgumentException("O destinatário não foi definido");
+                throw new ArgumentException("Destinatário não foi definido");
+            }
+            if(_number <= 0)
+            {
+                throw new ArgumentException("Número não pode ser menor ou igual a 0 (zero)");
             }
             if(_serialNumber <= 0)
             {
@@ -47,6 +51,7 @@ namespace InvoiceProject.Class
 
             Id = _id;
             Destinatary = _destinatary;
+            Number = _number;
             SerialNumber = _serialNumber;
             Amount = _amount;
             Payments = _payments;
@@ -54,9 +59,53 @@ namespace InvoiceProject.Class
             Status = InvoiceStatusEnum.Pendente;
         }
 
-        public static Invoice CreateInvoice(int _id, Client _destinatary, int _serialNumber, decimal _amount, List<Payment> _payments, List<Item> _items)
+        public static Invoice CreateInvoice(int _id, Client _destinatary, int _number, int _serialNumber, decimal _amount, List<Payment> _payments, List<Item> _items)
         {
-            return new Invoice(_id, _destinatary, _serialNumber, _amount, _payments, _items);
+            return new Invoice(_id, _destinatary, _number, _serialNumber, _amount, _payments, _items);
+        }
+
+        public static Invoice AlterInvoice(Invoice invoice,InvoiceDto data)
+        {
+            if(invoice.Status == InvoiceStatusEnum.Enviado)
+            {
+                return invoice;
+            }
+            if(invoice.Status == InvoiceStatusEnum.Erro)
+            {
+                invoice.Status = InvoiceStatusEnum.Pendente;
+            }
+            if(data.Destinatary != null && data.Destinatary != invoice.Destinatary)
+            {
+                invoice.Destinatary = data.Destinatary;
+            }
+            if(data.Amount != default && data.Amount != invoice.Amount && data.Amount > 0)
+            {
+                invoice.Amount = data.Amount;
+            }
+            if(data.Number != default && data.Number != invoice.Number && data.Number > 0)
+            {
+                invoice.Number = data.Number;
+            }
+            if (data.SerialNumber != default && data.SerialNumber != invoice.SerialNumber && data.SerialNumber > 0)
+            {
+                invoice.SerialNumber = data.SerialNumber;
+            }
+            if (data.Payments != null && data.Payments != invoice.Payments)
+            {
+                invoice.Payments = data.Payments;
+            }
+
+            return invoice;
+        }
+
+        public static Invoice AlterStatusInvoice(Invoice invoice)
+        {
+            if(invoice.Status == InvoiceStatusEnum.Pendente)
+            {
+                invoice.Status = InvoiceStatusEnum.Enviado;
+            }
+
+            return invoice;
         }
     }
 }
