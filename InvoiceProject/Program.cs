@@ -17,7 +17,7 @@ namespace InvoiceProject
                     1,
                     15,
                     new List<Payment> { new Payment { PaymentValue = 100 } },
-                    new List<Item> { Item.CreateItem(1, 1, "Agua", 3, 5, 15) }
+                    new List<Item> { Item.CreateItem(1, 1, "Agua s/ gás", 3, 5, 15) }
                     );
 
                 Console.WriteLine($"Id da nota: {invoice.Id} ");
@@ -32,7 +32,19 @@ namespace InvoiceProject
                     Console.WriteLine($"Id dos itens: {items.IdItem}");
                 }
 
-                var item = Item.CreateItem(3, 2, "Água com gás", 5, 2, 10);
+                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto {  });
+
+                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 100000 });
+                Console.WriteLine($"Alterando Amount para 100000: {invoice.Amount}");
+
+                invoice = Invoice.AlterStatusInvoice(invoice);
+                Console.WriteLine($"Status invoice alterado: {invoice.Status}");
+
+                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 10 });
+                Console.WriteLine($"Tentando alterando Amount para 10: {invoice.Amount}");
+
+                var item = Item.CreateItem(invoice.Id, 2, "Água com gás", 5, 2, 10);
+                invoice.Items.Add(item);
 
                 Console.WriteLine($"Id do item: {item.IdItem}");
                 Console.WriteLine($"Id do produto: {item.ProductId}");
@@ -43,15 +55,29 @@ namespace InvoiceProject
 
                 Console.WriteLine();
 
-                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 100000});
-                Console.WriteLine($"Alterando Amount para 100000: {invoice.Amount}");
 
-                invoice = Invoice.AlterStatusInvoice(invoice);
-                Console.WriteLine($"Status invoice alterado: {invoice.Status}");
+                invoice = Item.AlterItem(invoice, new ItemDto { ProductId = 2, DescriptionProduct = "Água c/ gás" });
+                Console.WriteLine($"Alterando DescriptionProduct: {item.DescriptionProduct}");
 
-                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 10 });
-                Console.WriteLine($"Tentando alterando Amount para 10: {invoice.Amount}");
+                Console.WriteLine();
+                Console.WriteLine();
 
+                var invoices = new List<Invoice> { invoice, Invoice.CreateInvoice(2, new Client { Id = 1, Name = "Gustavo", LastName = "Henrique", Gender = "Male" },
+                    1,
+                    1,
+                    15,
+                    new List<Payment> { new Payment { PaymentValue = 100 } },
+                    new List<Item> { Item.CreateItem(2, 1, "Agua s/ gás", 3, 5, 15)})};
+
+                invoices = Invoice.DeleteInvoice(invoices, 2);
+
+                Console.WriteLine($"Tamanho da lista de notas: {invoices.Count}");
+                foreach (var inv in invoices)
+                {
+                    Console.WriteLine($"Id da nota: {inv.Id}");
+                }
+
+                invoices = Invoice.DeleteInvoice(invoices, 3);
             }
             catch (ArgumentException ex)
             {

@@ -56,5 +56,31 @@ namespace InvoiceProject.Class
             return new Item(_idItem, _productId, _description, _unitValue, _quantity, _totalProduct);
         }
 
+        public static Invoice AlterItem(Invoice invoice, ItemDto data)
+        {
+            Item item = null;
+            if(data.ProductId != default && data.ProductId > 0)
+            {
+                item = invoice.Items.Where(x => x.ProductId == data.ProductId).FirstOrDefault();
+            }
+            if(data.DescriptionProduct != null && data.DescriptionProduct != item.DescriptionProduct)
+            {
+                item.DescriptionProduct = data.DescriptionProduct;
+            }
+            if(data.UnitValue != default && data.UnitValue != item.UnitValue)
+            {
+                item.DescriptionProduct = data.DescriptionProduct;
+            }
+            if(data.Quantity != default && data.Quantity != item.Quantity)
+            {
+                item.Quantity = data.Quantity;
+            }
+            if(data.TotalProduct != default && data.Quantity != item.TotalProduct)
+            {
+                item.TotalProduct = data.TotalProduct;
+            }
+
+            return invoice;
+        }
     }
 }

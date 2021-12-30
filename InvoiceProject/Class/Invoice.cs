@@ -107,5 +107,16 @@ namespace InvoiceProject.Class
 
             return invoice;
         }
+
+        public static List<Invoice> DeleteInvoice(List<Invoice> invoices, int Id)
+        {
+            var invoice = invoices.Where(x => x.Id == Id).FirstOrDefault();
+            var isRemoved = invoices.Remove(invoice); 
+            if(isRemoved == true)
+            {
+                return invoices;
+            }
+            throw new Exception($"Não foi possível localizar e remover a nota com id {Id}");
+        }
     }
 }
