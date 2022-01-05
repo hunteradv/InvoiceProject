@@ -8,8 +8,8 @@ namespace InvoiceProject.Class
 {
     public class Contact
     {
-        public int Id { get; private set; }
-        public string ContactInfo { get; private set; }
-        public string ContactType { get; private set; }
+        public int Id { get; set; }
+        public string ContactInfo { get; set; }
+        public string ContactType { get; set; }
     }
 }

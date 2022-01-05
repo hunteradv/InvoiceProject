@@ -44,10 +44,6 @@ namespace InvoiceProject.Class
             {
                 throw new ArgumentException("Lista de pagamentos está nula ou vazia");
             }
-            if (_items == null || _items.Count == 0)
-            {
-                throw new ArgumentException("Lista de itens está nula ou vazia");
-            }
 
             Id = _id;
             Destinatary = _destinatary;

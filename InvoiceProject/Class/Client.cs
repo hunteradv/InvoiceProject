@@ -12,7 +12,7 @@ namespace InvoiceProject.Class
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
-        public List<Address> Addresses { get; protected set; }
-        public List<Contact> Contacts { get; protected set; }
+        public List<Address> Addresses { get; set; }
+        public List<Contact> Contacts { get; set; }
     }
 }

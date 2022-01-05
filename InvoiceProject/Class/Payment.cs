@@ -8,8 +8,8 @@ namespace InvoiceProject.Class
 {
     public class Payment
     {
-        public int Id { get; private set; }
-        public string PaymentDescription { get; private set; }
+        public int Id { get; set; }
+        public string PaymentDescription { get; set; }
         public double PaymentValue { get; set; }
     }
 }

@@ -51,9 +51,11 @@ namespace InvoiceProject.Class
             TotalProduct = _totalProduct;
         }
 
-        public static Item CreateItem(int _idItem, int _productId, string _description, decimal _unitValue, int _quantity, decimal _totalProduct)
+        public static Invoice CreateItem(Invoice invoice, int _productId, string _description, decimal _unitValue, int _quantity, decimal _totalProduct)
         {
-            return new Item(_idItem, _productId, _description, _unitValue, _quantity, _totalProduct);
+            var item = new Item(invoice.Id, _productId, _description, _unitValue, _quantity, _totalProduct);
+            invoice.Items.Add(item);
+            return invoice;
         }
 
         public static Invoice AlterItem(Invoice invoice, ItemDto data)

@@ -8,11 +8,11 @@ namespace InvoiceProject.Class
 {
     public class Address
     {
-        public string AddressInfo { get; private set; }
-        public int Number { get; private set; }
-        public string District { get; private set; }
-        public string City { get; private set; }
-        public string State { get; private set; }
-        public string Country { get; private set; }
+        public string Street { get; set; }
+        public int Number { get; set; }
+        public string District { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
     }
 }
