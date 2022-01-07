@@ -62,6 +62,9 @@ namespace InvoiceProject.Class
 
         public static Invoice AlterInvoice(Invoice invoice,InvoiceDto data)
         {
+            //validar transição dos status
+            //não pode ser possível alterar valor total da nota
+            //valor total atualizado com base na alteração, inclusão e exclusão do itens de forma automática
             if(invoice.Status == InvoiceStatusEnum.Enviado)
             {
                 return invoice;
@@ -94,6 +97,7 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
+        //usuário escolhe o status, adicionar opções
         public static Invoice AlterStatusInvoice(Invoice invoice)
         {
             if(invoice.Status == InvoiceStatusEnum.Pendente)
@@ -104,6 +108,7 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
+        //excluir nota somente quando pendente ou com erro
         public static List<Invoice> DeleteInvoice(List<Invoice> invoices, int Id)
         {
             var invoice = invoices.Where(x => x.Id == Id).FirstOrDefault();

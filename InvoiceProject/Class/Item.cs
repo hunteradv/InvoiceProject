@@ -12,7 +12,9 @@ namespace InvoiceProject.Class
         public int ProductId { get; set; }
         public string DescriptionProduct { get; set; }
         public decimal UnitValue { get; set; }
-        public int Quantity { get; set; }
+
+        //quantity precisa ser decimal
+        public decimal Quantity { get; set; }
         public decimal TotalProduct { get; set; }
 
 
@@ -58,6 +60,11 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
+        //valor unitario precisa ser >= 0
+        //quantidade precisa ser >= 0
+        //não trocar id do produto
+        //adicionar ExcluiItem
+
         public static Invoice AlterItem(Invoice invoice, ItemDto data)
         {
             Item item = null;
@@ -69,11 +76,11 @@ namespace InvoiceProject.Class
             {
                 item.DescriptionProduct = data.DescriptionProduct;
             }
-            if(data.UnitValue != default && data.UnitValue != item.UnitValue)
+            if(data.UnitValue != default && data.UnitValue != item.UnitValue && data.UnitValue >=0)
             {
                 item.DescriptionProduct = data.DescriptionProduct;
             }
-            if(data.Quantity != default && data.Quantity != item.Quantity)
+            if(data.Quantity != default && data.Quantity != item.Quantity && data.Quantity >= 0)
             {
                 item.Quantity = data.Quantity;
             }

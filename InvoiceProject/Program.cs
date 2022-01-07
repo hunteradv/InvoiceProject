@@ -38,7 +38,7 @@ namespace InvoiceProject
                         Contacts = new List<Contact> {new Contact { Id = 2, ContactType = "telefone", ContactInfo = "112345656" } },
                         Addresses = new List<Address> { new Address { Street = "Rua teste 1", City = "Nova Iorque", Country = "Estados Unidos", District = "Bairro teste 1", Number = 180, State = "NI" } }
                     },
-                    1,
+                    2,
                     1,
                     6,
                     new List<Payment> { new Payment {Id = 2 ,PaymentValue = 6, PaymentDescription = "Crédito Stone" } },
@@ -51,7 +51,7 @@ namespace InvoiceProject
 
                 var invoice2 = invoices.FirstOrDefault(x => x.Id == 2);
 
-                invoice2 = Item.CreateItem(invoice, 2, "Água s/ gás", 3, 2, 6);
+                invoice2 = Item.CreateItem(invoice2, 2, "Água s/ gás", 3, 2, 6);
                 
                 Console.WriteLine($"Id da nota: {invoice.Id} ");
                 Console.WriteLine($"Nome do destinatário: {invoice.Destinatary.Name} {invoice.Destinatary.LastName} ");
@@ -60,6 +60,17 @@ namespace InvoiceProject
                 Console.WriteLine($"Número de série: {invoice.SerialNumber}");
                 Console.WriteLine($"Amount: {invoice.Amount}");
                 Console.WriteLine($"Valor pagamentos: {invoice.Payments.FirstOrDefault().PaymentValue}");
+                Console.WriteLine($"Status invoice: {invoice.Status}");
+                Console.WriteLine();
+
+                Console.WriteLine($"Id da nota: {invoice2.Id} ");
+                Console.WriteLine($"Nome do destinatário: {invoice2.Destinatary.Name} {invoice2.Destinatary.LastName} ");
+                Console.WriteLine($"Gender: {invoice2.Destinatary.Gender}");
+                Console.WriteLine($"Number: {invoice2.Number}");
+                Console.WriteLine($"Número de série: {invoice2.SerialNumber}");
+                Console.WriteLine($"Amount: {invoice2.Amount}");
+                Console.WriteLine($"Valor pagamentos: {invoice2.Payments.FirstOrDefault().PaymentValue}");
+                Console.WriteLine($"Status invoice: {invoice2.Status}");
                 Console.WriteLine();
 
                 foreach (var items in invoice.Items)
@@ -69,19 +80,21 @@ namespace InvoiceProject
 
                 Console.WriteLine();
 
-                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 100000 });
-                Console.WriteLine($"Alterando Amount para 100000: {invoice.Amount}");
-
-                invoice = Invoice.AlterStatusInvoice(invoice);
-                Console.WriteLine($"Status invoice alterado: {invoice.Status}");
-
-                invoice = Invoice.AlterInvoice(invoice, new InvoiceDto { Amount = 10 });
-                Console.WriteLine($"Tentando alterando Amount para 10: {invoice.Amount}");
-
-                Console.WriteLine();
-
                 foreach (var item in invoice.Items)
                 {
+                    Console.WriteLine($"Id da invoice a que o item se refere: {invoice.Id}");
+                    Console.WriteLine($"Id do item: {item.IdItem}");
+                    Console.WriteLine($"Id do produto: {item.ProductId}");
+                    Console.WriteLine($"Descrição: {item.DescriptionProduct}");
+                    Console.WriteLine($"Valor unitário: {item.UnitValue}");
+                    Console.WriteLine($"Quantidade: {item.Quantity}");
+                    Console.WriteLine($"Valor total: {item.TotalProduct}");
+                    Console.WriteLine();
+                }
+
+                foreach (var item in invoice2.Items)
+                {
+                    Console.WriteLine($"Id da invoice a que o item se refere: {invoice2.Id}");
                     Console.WriteLine($"Id do item: {item.IdItem}");
                     Console.WriteLine($"Id do produto: {item.ProductId}");
                     Console.WriteLine($"Descrição: {item.DescriptionProduct}");
