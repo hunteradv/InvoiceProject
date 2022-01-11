@@ -68,10 +68,6 @@ namespace InvoiceProject.Class
         public static Invoice AlterItem(Invoice invoice, ItemDto data)
         {
             Item item = null;
-            if(data.ProductId != default && data.ProductId > 0)
-            {
-                item = invoice.Items.Where(x => x.ProductId == data.ProductId).FirstOrDefault();
-            }
             if(data.DescriptionProduct != null && data.DescriptionProduct != item.DescriptionProduct)
             {
                 item.DescriptionProduct = data.DescriptionProduct;
@@ -90,6 +86,17 @@ namespace InvoiceProject.Class
             }
 
             return invoice;
+        }
+
+        public static List<Item> DeleteItem(List<Item> items, int Id)
+        {
+            var item = items.Where(x => x.IdItem == Id).FirstOrDefault();
+            var isRemoved = items.Remove(item);
+            if(isRemoved == true)
+            {
+                return items;   
+            }
+            throw new Exception($"Não foi possível localizar e remover o item de id {Id}");
         }
     }
 }

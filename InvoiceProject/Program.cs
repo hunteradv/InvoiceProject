@@ -73,6 +73,7 @@ namespace InvoiceProject
                 Console.WriteLine($"Status invoice: {invoice2.Status}");
                 Console.WriteLine();
 
+
                 foreach (var items in invoice.Items)
                 {
                     Console.WriteLine($"Lista de id dos itens: {items.IdItem}");
@@ -106,7 +107,7 @@ namespace InvoiceProject
 
                 Console.WriteLine();
 
-                invoice = Item.AlterItem(invoice, new ItemDto { ProductId = 2, DescriptionProduct = "Água c/ gás" });
+                invoice = Item.AlterItem(invoice, new ItemDto {DescriptionProduct = "Água c/ gás" });
                 var itemUpdate = invoice.Items.FirstOrDefault(x => x.ProductId == 2);
                 Console.WriteLine($"Alterando DescriptionProduct: {itemUpdate.DescriptionProduct}");
 
