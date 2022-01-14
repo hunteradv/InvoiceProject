@@ -8,8 +8,8 @@ namespace InvoiceProject.Enum
 {
     public enum InvoiceStatusEnum
     {
-        Pendente,
-        Enviado,
-        Erro
+        Pendente = 2,
+        Enviado = 3,
+        Erro = 1
     }
 }

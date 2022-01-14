@@ -12,8 +12,6 @@ namespace InvoiceProject.Class
         public int ProductId { get; set; }
         public string DescriptionProduct { get; set; }
         public decimal UnitValue { get; set; }
-
-        //quantity precisa ser decimal
         public decimal Quantity { get; set; }
         public decimal TotalProduct { get; set; }
 
@@ -67,14 +65,14 @@ namespace InvoiceProject.Class
 
         public static Invoice AlterItem(Invoice invoice, ItemDto data)
         {
-            Item item = null;
+            Item item = invoice.Items.FirstOrDefault(x => x.ProductId == data.ProductId);
             if(data.DescriptionProduct != null && data.DescriptionProduct != item.DescriptionProduct)
             {
                 item.DescriptionProduct = data.DescriptionProduct;
             }
             if(data.UnitValue != default && data.UnitValue != item.UnitValue && data.UnitValue >=0)
             {
-                item.DescriptionProduct = data.DescriptionProduct;
+                item.UnitValue = data.UnitValue;
             }
             if(data.Quantity != default && data.Quantity != item.Quantity && data.Quantity >= 0)
             {
@@ -88,15 +86,22 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
-        public static List<Item> DeleteItem(List<Item> items, int Id)
+        public static Invoice DeleteItem(Invoice invoice, int Id)
         {
-            var item = items.Where(x => x.IdItem == Id).FirstOrDefault();
-            var isRemoved = items.Remove(item);
-            if(isRemoved == true)
+            var items = invoice.Items;
+
+            if(items.Count == 1)
             {
-                return items;   
+                throw new Exception("Não é possível excluir o único item de uma nota, adicione um novo e posteriormente exclua este");
             }
-            throw new Exception($"Não foi possível localizar e remover o item de id {Id}");
+
+            var item = items.Where(x => x.ProductId == Id).FirstOrDefault();
+            var isRemoved = items.Remove(item);
+            if(isRemoved)
+            {
+                return invoice;   
+            }
+            throw new Exception($"Não foi possível localizar e remover o item de ProductId {Id}");
         }
     }
 }

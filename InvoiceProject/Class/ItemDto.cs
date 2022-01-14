@@ -8,6 +8,7 @@ namespace InvoiceProject.Class
 {
     public class ItemDto
     { 
+        public int ProductId { get; set; }
         public string DescriptionProduct { get; set; }
         public decimal UnitValue { get; set; }
         public int Quantity { get; set; }

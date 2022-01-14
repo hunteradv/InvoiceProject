@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using InvoiceProject.Class;
+using InvoiceProject.Enum;
 
 namespace InvoiceProject
 {
@@ -23,7 +24,6 @@ namespace InvoiceProject
                     },
                     1,
                     1,
-                    10,
                     new List<Payment> { new Payment { Id = 1 ,PaymentValue = 10, PaymentDescription = "Dinheiro" } },
                     new List<Item>()
                     ),
@@ -40,10 +40,55 @@ namespace InvoiceProject
                     },
                     2,
                     1,
-                    6,
                     new List<Payment> { new Payment {Id = 2 ,PaymentValue = 6, PaymentDescription = "Crédito Stone" } },
                     new List<Item>()
                     )};
+
+                //var running = true;
+                //var destinataires = new List<Client>
+                //{
+                //    new Client
+                //    {
+                //        Id = 3,
+                //        Name = "Client",
+                //        LastName = "3",
+                //        Gender = "Female",
+                //        Contacts = new List<Contact> {new Contact { Id = 2, ContactType = "telefone", ContactInfo = "1111111111" } },
+                //        Addresses = new List<Address> { new Address { Street = "Rua teste 2", City = "Cidade teste 1", Country = "País teste 1", District = "Bairro teste 1", Number = 111, State = "SA" } }
+                //    }
+                //};
+                //do
+                //{
+                //    int choice;
+                //    Console.WriteLine("Digite o id da nota: ");
+                //    var invoiceId = int.Parse(Console.ReadLine());
+                //    var invoice = invoices.FirstOrDefault(x => x.Id == invoiceId);
+
+                //    Console.WriteLine();
+                //    Console.WriteLine($"Id da nota: {invoice.Id} ");
+                //    Console.WriteLine($"Nome do destinatário: {invoice.Destinatary.Name} {invoice.Destinatary.LastName} ");
+                //    Console.WriteLine($"Gender: {invoice.Destinatary.Gender}");
+                //    Console.WriteLine($"Number: {invoice.Number}");
+                //    Console.WriteLine($"Número de série: {invoice.SerialNumber}");
+                //    Console.WriteLine($"Amount: {invoice.Amount}");
+                //    Console.WriteLine($"Valor pagamentos: {invoice.Payments.FirstOrDefault().PaymentValue}");
+                //    Console.WriteLine($"Status invoice: {invoice.Status}");
+                //    Console.WriteLine();
+
+                //    Console.WriteLine("Menu de operações: \n0- Sair\n1-Alterar Nota \n2- Excluir Nota\n3-Itens da nota");
+                //    choice = int.Parse(Console.ReadLine());
+
+                //    switch (choice)
+                //    {
+                //        case 0: 
+                //            running = false;
+                //            break;
+                //        case 1:
+                //            InvoiceDto invoiceDto = new InvoiceDto();
+                //            Console.WriteLine(": ");
+                //    }
+
+                //} while (running);   
 
                 var invoice = invoices.FirstOrDefault(x => x.Id == 1);
 
@@ -52,7 +97,14 @@ namespace InvoiceProject
                 var invoice2 = invoices.FirstOrDefault(x => x.Id == 2);
 
                 invoice2 = Item.CreateItem(invoice2, 2, "Água s/ gás", 3, 2, 6);
-                
+
+                Console.WriteLine($"Digite o número a seguir para escolher o status da nota {invoice.Id}");
+                Console.WriteLine("1- Erro \n2- Pendente \n3-Enviado");
+                var status = int.Parse(Console.ReadLine());
+
+                invoice = Invoice.AlterStatusInvoice(invoice, (InvoiceStatusEnum)status);
+
+
                 Console.WriteLine($"Id da nota: {invoice.Id} ");
                 Console.WriteLine($"Nome do destinatário: {invoice.Destinatary.Name} {invoice.Destinatary.LastName} ");
                 Console.WriteLine($"Gender: {invoice.Destinatary.Gender}");
@@ -107,7 +159,7 @@ namespace InvoiceProject
 
                 Console.WriteLine();
 
-                invoice = Item.AlterItem(invoice, new ItemDto {DescriptionProduct = "Água c/ gás" });
+                invoice = Item.AlterItem(invoice, new ItemDto { ProductId = 2, DescriptionProduct = "Água c/ gás" });
                 var itemUpdate = invoice.Items.FirstOrDefault(x => x.ProductId == 2);
                 Console.WriteLine($"Alterando DescriptionProduct: {itemUpdate.DescriptionProduct}");
 
@@ -122,7 +174,15 @@ namespace InvoiceProject
 
                 Console.WriteLine();
 
-                invoices = Invoice.DeleteInvoice(invoices, 3);
+                invoices = Invoice.DeleteInvoice(invoices, 2);
+
+                Console.WriteLine();
+
+                Console.WriteLine($"Quantidade de produtos da nota a ser excluido: {invoice.Items.Count} ");
+                Console.WriteLine("Excluindo item");
+                invoice = Item.DeleteItem(invoice, 2);
+                Console.WriteLine($"Quantidade de produtos da nota a ser excluido: {invoice.Items.Count} ");
+
             }
             catch (ArgumentException ex)
             {
