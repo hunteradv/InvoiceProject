@@ -58,11 +58,6 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
-        //valor unitario precisa ser >= 0
-        //quantidade precisa ser >= 0
-        //não trocar id do produto
-        //adicionar ExcluiItem
-
         public static Invoice AlterItem(Invoice invoice, ItemDto data)
         {
             Item item = invoice.Items.FirstOrDefault(x => x.ProductId == data.ProductId);

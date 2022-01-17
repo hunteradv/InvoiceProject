@@ -77,7 +77,6 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
-        //usuário escolhe o status, adicionar opções
         public static Invoice AlterStatusInvoice(Invoice invoice, InvoiceStatusEnum invoiceStatusEnum)
         {
             invoice.Status = invoiceStatusEnum;
@@ -85,7 +84,6 @@ namespace InvoiceProject.Class
             return invoice;
         }
 
-        //excluir nota somente quando pendente ou com erro
         public static List<Invoice> DeleteInvoice(List<Invoice> invoices, int Id)
         {
             var invoice = invoices.Where(x => x.Id == Id).FirstOrDefault();
