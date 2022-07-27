@@ -106,6 +106,12 @@ namespace InvoiceProject
 
                 invoice = Invoice.AlterStatusInvoice(invoice, (InvoiceStatusEnum)status);
 
+                Console.WriteLine($"Digite o número a seguir para escolher o status da nota {invoice.Id}");
+                Console.WriteLine("1- Erro \n2- Pendente \n3-Enviado");
+                var status2 = int.Parse(Console.ReadLine());
+
+                invoice2 = Invoice.AlterStatusInvoice(invoice2, (InvoiceStatusEnum)status);
+
 
                 Console.WriteLine($"Id da nota: {invoice.Id} ");
                 Console.WriteLine($"Nome do destinatário: {invoice.Destinatary.Name} {invoice.Destinatary.LastName} ");
